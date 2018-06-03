@@ -27,6 +27,8 @@ class UsersController extends Controller {
 			'password' => bcrypt($request->password),
 		]);
 
+		Auth::login($user);
+
 		return redirect()->route('users.show', [$user->id]);
 	}
 }
