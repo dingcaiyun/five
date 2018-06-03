@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Status;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -29,6 +30,15 @@ class User extends Authenticatable {
 	public function gravatar($size = '100') {
 		$hash = md5(strtolower(trim($this->attributes['email'])));
 		return "http://www.gravatar.com/avatar/$hash?s=$size";
+	}
+
+	public function statuses() {
+		return $this->hasMany(Status::class);
+	}
+
+	public function feed() {
+		return $this->statuses()
+			->orderBy('created_at', 'desc');
 	}
 
 }

@@ -20,10 +20,6 @@ class UsersController extends Controller {
 		return view('users.create');
 	}
 
-	public function show(User $user) {
-		return view('users.show', compact('user'));
-	}
-
 	public function store(Request $request) {
 		$this->validate($request, [
 			'name' => 'required|max:50',
@@ -77,6 +73,12 @@ class UsersController extends Controller {
 
 		session()->flash('success', '成功删除用户！');
 		return back();
+	}
+
+	public function show(User $user) {
+		$statuses = $user->feed()->paginate(30);
+
+		return view('users.show', compact('user', 'statuses'));
 	}
 
 }
